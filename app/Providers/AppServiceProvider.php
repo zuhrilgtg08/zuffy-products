@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         });
         
         Gate::define('admin', function(User $user) {
-            return $user->status_type == 'admin';
+            return $user->status_type === 'admin';
         });
     }
 }

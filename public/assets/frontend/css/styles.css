@@ -34,6 +34,7 @@ Colors:
 /**************************/
 /*     General Styles     */
 /**************************/
+
 body,
 html {
     width: 100%;
@@ -42,7 +43,7 @@ html {
 
 body, p {
 	color: #5e6576; 
-	font: 400 1rem/1.625rem "Open Sans", sans-serif;
+	font: 400 1rem/1.625rem "Inter", sans-serif;
 }
 
 h1 {

@@ -206,56 +206,50 @@
                 </div>
             </div>
 
-            <div class="card border-0 shadow my-5">
-                <div class="card-body">
-                    <h2 class="text-center h2-heading my-3">Change Your Password Acount</h2>
-                    <form action="{{ route('customer.profile.pwdChange', $data->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <div class="row justify-content-center">
-                            <div class="col-xl-4">
-                                <div class="mb-3">
-                                    <label for="current" class="form-label">Current Password</label>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text"><i class="fas fa-fw fa-pen"></i></span>
-                                        <input type="password" class="form-control @error('current_password') is-invalid @enderror" 
-                                            required name="current_password" id="current" placeholder="Current Password..."/>
-                                        @error('current_password')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror  
-                                    </div>
+            <div class="col-xl-5">
+                <div class="card border-0 shadow my-5">
+                    <h4 class="text-center card-header">Change Your Password Acount</h4>
+                    <div class="card-body">
+                        <form action="{{ route('customer.profile.pwdChange', $data->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-3">
+                                <label for="current" class="form-label">Current Password</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fas fa-fw fa-pen"></i></span>
+                                    <input type="password" class="form-control @error('current_password') is-invalid @enderror"
+                                        required name="current_password" id="current" placeholder="Current Password..." />
+                                    @error('current_password')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
-                            <div class="col-xl-4">
-                                <div class="mb-3">
-                                    <label for="create" class="form-label">Create New Password</label>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text"><i class="fas fa-fw fa-reply"></i></span>
-                                        <input type="password" class="form-control @error('create_password') is-invalid @enderror" 
-                                            required name="create_password" id="create" placeholder="New Password..."/>
-                                        @error('create_password')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror  
-                                    </div>
+                            <div class="mb-3">
+                                <label for="create" class="form-label">Create New Password</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fas fa-fw fa-reply"></i></span>
+                                    <input type="password" class="form-control @error('create_password') is-invalid @enderror"
+                                        required name="create_password" id="create" placeholder="New Password..." />
+                                    @error('create_password')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
-                            <div class="col-xl-4">
-                                <div class="mb-3">
-                                    <label for="confirm" class="form-label">Confirm Password</label>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text"><i class="fas fa-fw fa-check-circle"></i></span>
-                                        <input type="password" class="form-control @error('confirm_password') is-invalid @enderror" 
-                                            required name="confirm_password" id="confirm" placeholder="Confirm Password..."/>
-                                        @error('confirm_password')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                        @enderror
-                                    </div>
+                            <div class="mb-3">
+                                <label for="confirm" class="form-label">Confirm Password</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fas fa-fw fa-check-circle"></i></span>
+                                    <input type="password" class="form-control @error('confirm_password') is-invalid @enderror"
+                                        required name="confirm_password" id="confirm" placeholder="Confirm Password..." />
+                                    @error('confirm_password')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
                             <div class="my-3 text-center">
@@ -263,8 +257,76 @@
                                     Confirm Change
                                 </button>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-5">
+                <div class="card border-0 shadow my-5">
+                    <h4 class="text-center card-header">Set Your Address Data</h4>
+                    <div class="card-body">
+                        <form action="{{ route('customer.alamat.update', $data->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="user_id" value="{{ $data->id }}" />
+                            <div class="mb-3">
+                                <label for="provinsi_id" class="form-label">Choose Provinces</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fas fa-fw fa-mountain"></i></span>
+                                    <select class="form-select" required name="provinsi_id" id="prvinsi_id">
+                                        <option disabled selected>Choose Provinces</option>
+                                        @foreach ($provinsi as $item)
+                                            @if ($dataAlamat != null)
+                                                <option value="{{ $item->id }}"
+                                                    {{ ($dataAlamat->provinsi_id == $item->id)? 'selected' : '' }}>{{ $item->name_province }}</option>
+                                            @else
+                                                <option value="{{ $item->id }}">{{ $item->name_province }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @error('provinsi_id')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="kota_id" class="form-label">Choose Cities</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fas fa-fw fa-city"></i></span>
+                                    <select class="form-select" required name="kota_id" id="kota_id">
+                                        <option>Choose City</option>
+                                        {{-- @foreach ($kota as $data)
+                                            @if ($dataAlamat != null)
+                                                <option value="{{ $data->id }}" {{ ($dataAlamat->kota_id == $data->id) ? 'selected' : '' }}>{{ $dataAlamat->city->nama_kab_kota }}</option>
+                                            @endif
+                                        @endforeach --}}
+                                    </select>
+                                    @error('kota_id')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <textarea name="keterangan_alamat" id="ket-alamat" 
+                                placeholder="Details Your Address"
+                                class="form-control mt-4 @error('keterangan_alamat') is-invalid @enderror">{{ ($dataAlamat != null) ? $dataAlamat->keterangan_alamat : '' }}</textarea>
+                                @error('keterangan_alamat')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="my-3 text-center">
+                                <button type="submit" class="btn-solid-sm">
+                                    Save Change
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -275,6 +337,30 @@
     <script src="{{ asset('assets/backend/vendors/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/backend/vendors/quill/quill.min.js') }}"></script>
     <script src="{{ asset('assets/backend/vendors/flatpicker/flatpicker.min.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            $('select[name="provinsi_id"]').on('change', function() {
+                let provinceId = $(this).val();
+                if(provinceId) {
+                    $.ajax({
+                        type: "GET",
+                        url: "/data/provinsi/" + provinceId,
+                        dataType: "json",
+                        success: function (response) {
+                            $('select[name="kota_id"]').empty();
+                            $.each(response, function(key, value) {
+                                $('select[name="kota_id"]').append(
+                                    '<option value="'+ value.id +'">' + value.nama_kab_kota + '</option>'
+                                );
+                            });
+                        }
+                    });
+                } else {
+                    $('select[name="kota_id"]').empty();
+                }
+            });
+        });
+    </script>
     <script>
         let snowEditor = new Quill('#snow-editor', {
             theme: 'snow'

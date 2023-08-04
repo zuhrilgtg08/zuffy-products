@@ -116,8 +116,11 @@
                                         <input type="radio" id="rating0.5" {{ ($data->rating == 0.5) ? 'checked' : null }}/><label class="half" for="rating0.5"></label>
                                         ({{ $data->rating }})
                                     </fieldset>
-                                    <form action="" method="POST" class="d-inline">
+                                    <form action="{{ route('keranjang.store') }}" method="POST" class="d-inline">
                                         @csrf
+                                        <input type="hidden" name="product_id" value="{{ $data->id }}" />
+                                        <input type="hidden" name="quantity" 
+                                            value="{{ ($data->stock_product > 0) ? 1 : 0}}" min="1" max="{{ $data->stock_product }}"/>
                                         <button type="submit" class="float-end btn btn-danger">
                                             <i class="fas fa-fw fa-shopping-cart"></i>
                                         </button>

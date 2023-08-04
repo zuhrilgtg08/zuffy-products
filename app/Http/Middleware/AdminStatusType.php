@@ -16,7 +16,7 @@ class AdminStatusType
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth::check() || !Auth::user()->status_type == 'admin') {
+        if(!Auth::check() || Auth::user()->status_type !== 'admin') {
             return abort(403);
         }
 

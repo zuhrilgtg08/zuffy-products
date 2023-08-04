@@ -47,6 +47,7 @@ Route::name('admin.')->prefix('manage_dashboard')->middleware(['admin'])->group(
 // ajax services
 Route::get('/admin/categories/checkSlug', [DataCategoryController::class, 'checkSlug'])->middleware('admin');
 Route::get('/admin/workers/province/{provinces:id}', [DataWorkerController::class, 'getCity'])->middleware('admin');
+Route::get('/data/provinsi/{provinces:id}', [SettingCustomerController::class, 'listKota'])->middleware('auth');
 
 // Authenticate Routes
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
@@ -70,6 +71,7 @@ Route::get('/popular', [PopularController::class, 'index'])->name('popular');
 // Customers group Routes 
 Route::name('customer.')->middleware(['auth'])->group(function () {
     Route::get('/profile/{users:username}', [SettingCustomerController::class, 'profile'])->name('profile.edit');
+    Route::put('/profile/alamat/{users:id}', [SettingCustomerController::class, 'dataAlamat'])->name('alamat.update');
     Route::put('/profile/update/{users:id}', [SettingCustomerController::class, 'update'])->name('profile.update');
     Route::put('/profile/password/update/{users:id}', [SettingCustomerController::class, 'updatePwd'])->name('profile.pwdChange');
 });

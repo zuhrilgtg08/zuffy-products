@@ -98,7 +98,9 @@
                             <h2 class="card-title">{{ $data->name_product }}</h2>
                             <p class="card-text">{!! $data->desc_product !!}</p>
                             @auth
-                                <form action="" method="" class="{{ (auth()->user()->status_type == 'admin') ? 'd-none' : '' }}">
+                                <form action="{{ route('keranjang.store') }}" method="POST" class="{{ (auth()->user()->status_type == 'admin') ? 'd-none' : '' }}">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $data->id }}" />
                                     <div class="row mt-3">
                                         <div class="col-xl-3">
                                             <input type="number"
@@ -108,16 +110,16 @@
                                                 max="{{ $data->stock_product }}" min="1" />
                                             @error('quantity')
                                                 <div class="invalid-feedback">
-                                                    {{ $message }}
+                                                    {{ $message }} 
                                                 </div>
                                             @enderror
                                         </div>
                                         <div class="col-xl-3">
-                                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                            <a href="#" class="btn btn-success" data-bs-toggle="modal"
                                                 data-bs-target="#rating-modal">
                                                 <i class="fas fa-fw fa-star text-warning"></i>
                                                 Add Rating
-                                            </button>
+                                            </a>
                                         </div>
                                         <div class="col-xl-4">
                                             <button type="submit" class="btn btn-danger">

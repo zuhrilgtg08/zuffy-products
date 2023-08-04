@@ -16,12 +16,12 @@ class Controller extends BaseController
     {
         $this->middleware(function ($request, $next) {
             if (auth()->user()) {
-                $keranjang = Keranjang::where('user_id', auth()->user()->id)
-                                       ->where('status', '=', 'unpaid')->get();
-                View::share('cart', $keranjang);
+                $cart = Keranjang::where('user_id', auth()->user()->id)
+                                       ->where('status', '=', 'onList')->get();
+                View::share('cart', $cart);
                 
-                $orders = Keranjang::with('order', 'product')->where('user_id', '<>', 1)->where('status', 'unpaid')->get();
-                View::share('order', $orders);
+                $orders = Keranjang::with(['checkout', 'product'])->where('user_id', '<>', 1)->where('status', 'onList')->get();
+                View::share('orders', $orders);
             }
 
             return $next($request);

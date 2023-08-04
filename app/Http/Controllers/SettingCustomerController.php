@@ -1,7 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
+use App\Models\Alamat;
+use App\Models\Cities;
+use App\Models\Provinces;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,10 +15,46 @@ class SettingCustomerController extends Controller
 {
     public function profile(string $username)
     {
-        $data = User::where('username', $username)->first();
+        $data = User::with(['alamat'])->where('username', $username)->first();
+        $provinsi = Provinces::get(['id', 'name_province']);
+        $kota = Cities::join('provinces', 'provinces.id', '=', 'cities.province_id')
+                        ->get(['cities.id', 'cities.nama_kab_kota', 'cities.province_id']);
+        $dataAlamat = Alamat::where('user_id', '=', Auth::user()->id)->latest()->first();
+        
         return view('pages.customer.profile.edit', [
-            'data' => $data
+            'data' => $data,
+            'provinsi' => $provinsi,
+            'kota' => $kota,
+            'dataAlamat' => $dataAlamat,
         ]);
+    }
+
+    public function listKota(string $id)
+    {
+        $cities = Cities::where('province_id', '=', $id)->get(['id', 'nama_kab_kota']);
+        return response()->json($cities);
+    }
+
+    public function dataAlamat(Request $request, string $id)
+    {
+        $validate = $request->validate([
+            'user_id' => 'required',
+            'provinsi_id' => 'required',
+            'kota_id' => 'required',
+            'keterangan_alamat' => 'string|required'
+        ]);
+
+        if(Auth::user()->status_type !== 'admin') $validate['user_id'] = Auth::user()->id;
+
+        $alamat = Alamat::where('user_id', '=', Auth::user()->id)->latest()->first();
+
+        if($alamat == null) {
+            Alamat::create($validate);
+            return redirect()->back()->with('success', 'Data address has been created!');
+        } else {
+            Alamat::where('user_id', $id)->update($validate);
+            return redirect()->back()->with('success', 'Data address has been updated!');
+        }
     }
 
     public function update(Request $request, string $id)

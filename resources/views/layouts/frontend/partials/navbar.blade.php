@@ -27,7 +27,7 @@
                 <li class="nav-item {{ auth()->user() ? '' : 'd-none' }}">
                     <a class="nav-link {{ Request::is('list-cart') ? 'active' : '' }}" href="{{ route('keranjang.list') }}">
                         <i class="fas fa-fw fa-shopping-cart"></i> My Cart
-                        @if (!$cart->isEmpty())
+                        @if (!empty($cart))
                             <span class="badge rounded-pill badge-notification bg-danger ms-1">
                                 {{ $cart->count() }}
                             </span>
