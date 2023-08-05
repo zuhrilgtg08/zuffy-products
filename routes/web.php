@@ -7,6 +7,7 @@ use App\Http\Controllers\PopularController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Order\ShippingController;
 use App\Http\Controllers\Data\DataReviewController;
 use App\Http\Controllers\Data\DataWorkerController;
 use App\Http\Controllers\SettingCustomerController;
@@ -44,11 +45,6 @@ Route::name('admin.')->prefix('manage_dashboard')->middleware(['admin'])->group(
     Route::put('/data/profile/password/update/{users:id}', [DataDashboardController::class, 'change'])->name('password.change');
 });
 
-// ajax services
-Route::get('/admin/categories/checkSlug', [DataCategoryController::class, 'checkSlug'])->middleware('admin');
-Route::get('/admin/workers/province/{provinces:id}', [DataWorkerController::class, 'getCity'])->middleware('admin');
-Route::get('/data/provinsi/{provinces:id}', [SettingCustomerController::class, 'listKota'])->middleware('auth');
-
 // Authenticate Routes
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login/authenticate', [LoginController::class, 'authenticate'])->name('authenticate');
@@ -82,4 +78,17 @@ Route::name('keranjang.')->middleware(['auth'])->group(function() {
     Route::post('/data/cart/store', [CartController::class, 'store'])->name('store');
     Route::put('/data/cart/update/{id}', [CartController::class, 'update'])->name('update');
     Route::delete('/data/cart/destroy/{id}', [CartController::class, 'destroy'])->name('destroy');
+});
+
+// ajax services
+Route::get('/admin/categories/checkSlug', [DataCategoryController::class, 'checkSlug'])->middleware('admin');
+Route::get('/admin/workers/province/{provinces:id}', [DataWorkerController::class, 'getCity'])->middleware('admin');
+Route::get('/data/provinsi/{provinces:id}', [SettingCustomerController::class, 'listKota'])->middleware('auth');
+
+// Checkouts Route
+Route::name('shipping.')->middleware(['auth'])->group(function() {
+    Route::get('/data/city/{provinces:id}', [ShippingController::class, 'getCity'])->name('city');
+    Route::get('/destination={city_destination}&weight={weight}&courier={courier}', [ShippingController::class, 'cekOngkir'])->name('check.ongkir');
+    Route::get('/shipping/data/create', [ShippingController::class, 'create'])->name('create');
+    Route::post('/shipping/data/store', [ShippingController::class, 'store'])->name('store');
 });

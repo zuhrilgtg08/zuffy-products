@@ -20,9 +20,10 @@ return new class extends Migration
             $table->float('weight');
             $table->integer('harga_ongkir');
             $table->string('layanan_ongkir');
-            $table->integer('sum_price');
+            $table->integer('total_amount');
             $table->string('alamat');
-            $table->string('snap_token', 36)->nullable();
+            $table->string('payment_status')->nullable();
+            $table->string('payment_link')->nullable();
             $table->timestamps();
         });
     }

@@ -1,7 +1,6 @@
 @extends('layouts.frontend.main')
 
 @section('styles')
-    <link rel="stylesheet" href="{{ asset('assets/backend/vendors/simple-datatables/style.css') }}" />
     <style>
         .btn:focus{
             box-shadow:none !important;
@@ -128,7 +127,7 @@
                         </ul>
                     
                         <div class="mx-auto text-center {{ $list->isEmpty() ? 'd-none' : '' }}">
-                            <a href="" class="btn btn-solid-reg btn-lg btn-block">
+                            <a href="{{ route('shipping.create') }}" class="btn btn-solid-reg btn-lg btn-block">
                                 Go to add shipping
                             </a>
                         </div>

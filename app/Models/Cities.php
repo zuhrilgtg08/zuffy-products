@@ -9,6 +9,4 @@ class Cities extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
-
-    
 }

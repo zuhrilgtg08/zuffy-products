@@ -297,11 +297,6 @@
                                     <span class="input-group-text"><i class="fas fa-fw fa-city"></i></span>
                                     <select class="form-select" required name="kota_id" id="kota_id">
                                         <option>Choose City</option>
-                                        {{-- @foreach ($kota as $data)
-                                            @if ($dataAlamat != null)
-                                                <option value="{{ $data->id }}" {{ ($dataAlamat->kota_id == $data->id) ? 'selected' : '' }}>{{ $dataAlamat->city->nama_kab_kota }}</option>
-                                            @endif
-                                        @endforeach --}}
                                     </select>
                                     @error('kota_id')
                                         <div class="invalid-feedback">
