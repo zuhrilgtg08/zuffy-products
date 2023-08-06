@@ -2,20 +2,26 @@
 @section('content')
     <div class="container" style="padding-top: 6.5rem; padding-bottom: 5rem;">
         <div class="row justify-content-center">
-            <h2 class="text-center my-4">Add Shipping Data</h2>
-            @if (session()->has('success'))
-                <div class="alert col-lg-8 my-3 alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div class="col-xl-12">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <a href="{{ route('keranjang.list') }}" 
+                            class="text-decoration-none btn btn-primary rounded-pil my-4">
+                            <i class="fas fa-fw fa-arrow-alt-circle-left"></i>
+                            Back to Cart List
+                        </a>
+                    </div>
+                    <div class="col-lg-8">
+                        <h2 class="text-center my-4">Add Shipping Data</h2>
+                    </div>
                 </div>
-            @endif
+            </div>
             @if (session()->has('fail'))
                 <div class="alert col-lg-8 my-3 alert-danger alert-dismissible fade show" role="alert">
                     {{ session('fail') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-
             <div class="col-xl-5 col-lg-5">
                 <div class="card border-0 shadow">
                     <div class="card-body">
@@ -23,19 +29,23 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                 Name
-                                <span>Nama User</span>
+                                <span>{{ $alamat->user->name }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                 Email
-                                <span>Email User</span>
+                                <span>{{ $alamat->user->email }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                 Phone
-                                <span>Phone user</span>
+                                <span>{{ $alamat->user->phone }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                 Total Quantity
-                                <span>0 Item</span>
+                                <span>{{ $quantity }} Item</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                Service Shipping
+                                <span class="paket-ongkir">Service</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                                 <div>
@@ -44,7 +54,7 @@
                                         <p class="mb-0">(Including Shipping)</p>
                                     </strong>
                                 </div>
-                                <span><strong class="total-harga">0</strong></span>
+                                <span><strong class="total-harga">Rp. 0</strong></span>
                             </li>
                         </ul>
                     </div>
@@ -180,7 +190,7 @@
                                     <div class="mb-3">
                                         <label for="alamat" class="form-label">Address :</label>
                                         <textarea class="form-control" placeholder="Write Address" id="alamat" style="height: 100px" name="alamat"
-                                            required></textarea>
+                                            required>{{ $alamat->keterangan_alamat ?? '-'}}</textarea>
                                     </div>
                                     <div class="my-3 text-end">
                                         <button type="submit" class="btn btn-success w-25">Confirm</button>
@@ -253,6 +263,18 @@
                         $('select[name="layanan_ongkir"]').empty();
                     }
                 });
+
+            $('select[name="harga_ongkir"]').on('change', function(){
+                    let services = $(this).val();
+                    const total_amount = $('#total_amount').val();
+                    $('.cost-ongkir').html(`Rp. ${services}`);
+                    $('.total-harga').html(`Rp. ${parseInt(services) + parseInt(total_amount)}`);
+                });
+
+            $('select[name="layanan_ongkir"]').on('change', function(){
+                let paketOngkir = $(this).val();
+                $('.paket-ongkir').html(paketOngkir);
+            });
         });
     </script>
 @endsection

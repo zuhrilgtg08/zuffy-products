@@ -14,6 +14,7 @@ use App\Http\Controllers\SettingCustomerController;
 use App\Http\Controllers\Data\DataProductController;
 use App\Http\Controllers\Data\DataCategoryController;
 use App\Http\Controllers\Data\DataDashboardController;
+use App\Http\Controllers\Order\CheckoutsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,10 +86,19 @@ Route::get('/admin/categories/checkSlug', [DataCategoryController::class, 'check
 Route::get('/admin/workers/province/{provinces:id}', [DataWorkerController::class, 'getCity'])->middleware('admin');
 Route::get('/data/provinsi/{provinces:id}', [SettingCustomerController::class, 'listKota'])->middleware('auth');
 
-// Checkouts Route
+// Shipping Route
 Route::name('shipping.')->middleware(['auth'])->group(function() {
     Route::get('/data/city/{provinces:id}', [ShippingController::class, 'getCity'])->name('city');
     Route::get('/destination={city_destination}&weight={weight}&courier={courier}', [ShippingController::class, 'cekOngkir'])->name('check.ongkir');
     Route::get('/shipping/data/create', [ShippingController::class, 'create'])->name('create');
     Route::post('/shipping/data/store', [ShippingController::class, 'store'])->name('store');
 });
+
+// Checkouts Payment
+Route::name('checkout.')->middleware(['auth'])->group(function() {
+    Route::get('/order/payment', [CheckoutsController::class, 'create'])->name('create');
+    Route::post('/order/payment/data/store', [CheckoutsController::class, 'storePayment'])->name('payment.store');
+});
+
+// Checkout Callback
+Route::post('/payment/callback', [CheckoutsController::class, 'paymentCallback']);

@@ -20,7 +20,11 @@ class Controller extends BaseController
                                        ->where('status', '=', 'onList')->get();
                 View::share('cart', $cart);
                 
-                $orders = Keranjang::with(['checkout', 'product'])->where('user_id', '<>', 1)->where('status', 'onList')->get();
+                $orders = Keranjang::with(['checkout', 'product'])
+                                    ->where([
+                                           ['user_id', '<>', 1],
+                                           ['status', '=', 'paid']                  
+                                    ])->get();
                 View::share('orders', $orders);
             }
 
