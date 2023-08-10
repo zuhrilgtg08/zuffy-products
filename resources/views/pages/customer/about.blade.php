@@ -24,11 +24,11 @@
                 </div>
                 <div class="col-xl-5">
                     <div class="text-container">
-                        <h2>Z-Mecrame<br>
+                        <h2>Zuffy-Store<br>
                             <span>stylish and efficient sites</span>
                         </h2>
                         <p>
-                            Hello and welcome to Z-Mecrame, the place to find a wide variety of
+                            Hello and welcome to Zuffy-Store, the place to find a wide variety of
                             the best products for every taste and chance.
                         </p>
                         <p>
@@ -47,7 +47,7 @@
             <div class="row">
                 <div class="col-xl-5">
                     <div class="text-about">
-                        <h2>Z-Mecrame<br>
+                        <h2>Zuffy-Store<br>
                             <span>stylish and efficient sites</span>
                         </h2>
                         <p>

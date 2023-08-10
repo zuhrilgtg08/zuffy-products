@@ -23,8 +23,8 @@
             <div class="row justify-content-center">
                 <div class="col-xl-5">
                     <div class="text-container">
-                        <div class="section-title">Welcome to Z-Mecrame eCommerce web</div>
-                        <h1 class="h1-large">Z-Mecrame stylish and efficient sites</h1>
+                        <div class="section-title">Welcome to Zuffy-Store eCommerce web</div>
+                        <h1 class="h1-large">Zuffy-Store stylish and efficient sites</h1>
                         <form action="{{ route('home') }}" method="GET">
                             <div class="input-group mb-3">
                                 <input type="text" name="search" class="form-control" placeholder="Search Now"

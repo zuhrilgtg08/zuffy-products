@@ -29,19 +29,23 @@
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                 Name
-                                <span>{{ $alamat->user->name }}</span>
+                                <span>{{ $alamat->user->name ?? auth()->user()->name }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                 Email
-                                <span>{{ $alamat->user->email }}</span>
+                                <span>{{ $alamat->user->email ?? auth()->user()->email }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                 Phone
-                                <span>{{ $alamat->user->phone }}</span>
+                                <span>{{ $alamat->user->phone ?? auth()->user()->phone }}</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                 Total Quantity
                                 <span>{{ $quantity }} Item</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                Total Price Product
+                                <span>@currency($total_amount)</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                 Service Shipping
@@ -78,12 +82,16 @@
                                                     <select name="province_id" id="province_id" 
                                                         class="form-select @error('province_id') is-invalid @enderror">
                                                         <option selected disabled>Province</option>
-                                                        @foreach ($provinsi as $data)
-                                                            <option value="{{ $data->id ?? $alamat->provinsi_id }}" 
-                                                                {{ ($alamat->provinsi_id == $data->id) ? 'selected' : '' }}>
-                                                                {{ $data->name_province }}
-                                                            </option>
-                                                        @endforeach
+                                                        @if ($alamat === null)
+                                                            @foreach ($provinsi as $data)
+                                                                <option value="{{ $data->id }}">{{ $data->name_province }}</option>
+                                                            @endforeach
+                                                        @else
+                                                            @foreach ($provinsi as $item)
+                                                                <option value="{{ $alamat->provinsi_id ?? $item->id }}" selected>{{ $item->name_province }}</option>
+                                                            @endforeach
+                                                        @endif
+                                                        
                                                     </select>
                                                     @error('province_id')
                                                         <div class="invalid-feedback">
@@ -100,13 +108,13 @@
                                                     <span class="input-group-text"><i class="fas fa-fw fa-city"></i></span>
                                                     <select name="destination_id" id="destination_id"
                                                         class="form-select @error('destination_id') is-invalid @enderror">
-                                                        @foreach ($kota as $item)
-                                                            @if ($alamat->user_id == auth()->user()->id)
-                                                                <option value="{{ $item->id }}" {{ ($item->id == $alamat->kota_id) ? 'selected' : '' }}>{{ $item->nama_kab_kota }}</option>
-                                                            @else
-                                                                <option>City</option>
-                                                            @endif
-                                                        @endforeach
+                                                        @if ($alamat === null)
+                                                            <option>City</option>
+                                                        @else
+                                                            @foreach ($kota as $item)
+                                                                <option value="{{ $alamat->kota_id ?? $item->id }}" selected>{{ $item->nama_kab_kota }}</option>
+                                                            @endforeach
+                                                        @endif
                                                     </select>
                                                     @error('destination_id')
                                                         <div class="invalid-feedback">

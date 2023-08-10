@@ -48,7 +48,7 @@ class ProductSeeder extends Seeder
             'worker_id' => 1,
             'stock_product' => 1200,
             'price_product' => 167500,
-            'excerpt' => 'Arduino Indonesia berinovasi dan melahirkan sebuah Arduino Starter KIT for Beginner - Premium Version (Paket Belajar Arduino untuk Pemula)',
+            'excerpt' => 'Arduino Indonesia berinovasi dan melahirkan sebuah Arduino Starter KIT for Beginner',
             'desc_product' => '<h2>Arduino Uno Stater Kit</h2> <br> 
             <p>Arduino Indonesia berinovasi dan melahirkan sebuah Arduino Starter KIT for Beginner - Premium Version ( Paket Belajar Arduino untuk Pemula ) untuk mempermudah belajar bagi Anda yang masih pemula. Kami menawarkan Arduino Starter KIT for Beginner - Premium Version ( Paket Belajar Arduino untuk Pemula ) yang merupakan seperangkat media pembelajaran interaktif berbasis Arduino UNO R3 yang dikemas menjadi satu paket/box.</p>
             <p>Arduino Starter KIT for Beginner - Premium Version ini cocok untuk kegiatan praktek belajar dan mengajar (pembelajaran) di SMK atau pun Kampus (Perguruan Tinggi). Bisa juga untuk level SMP dan SMA Sederajat yang di dalamnya ada Ekstra Kurikuler Khusus di Bidang Robotika atau IT.</p>',

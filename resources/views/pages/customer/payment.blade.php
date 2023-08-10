@@ -16,50 +16,73 @@
                 </div>
             @endif
             <div class="col-xl-12 mt-3">
-                <table class="table table-striped text-center mb-5">
-                    <thead class="bg-dark text-white">
-                        <th>Name</th>
-                        <th>Item Product</th>
-                        <th>Quantity</th>
-                        <th>Courier</th>
-                        <th>Price Product</th>
-                        <th>Price Shipping</th>
-                        <th>Total Amount</th>
-                    </thead>
-                    <tbody>
-                        @foreach ($order as $item)
-                            <tr>
-                                <td>{{ $item->user->name }}</td>
-                                <td>{{ $item->product->name_product }}</td>
-                                <td>{{ $item->quantity }} Item</td>
-                                <td>{{ $item->checkout->courier }}</td>
-                                <td>@currency($item->product->price_product)</td>
-                                <td>@currency($item->checkout->harga_ongkir)</td>
-                                <td>@currency($item->checkout->harga_ongkir + $item->checkout->total_amount)</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <div class="col-xl-6">
-                    <div class="card shadow border-0 mb-5">
-                        <div class="card-body">
-                            <a href="{{ $payment_link ?? '-'}}" target="_blank" class="card-text">
-                                {{ $payment_link ?? '-' }}
-                            </a>
-                            <p class="card-text">
-                                Status Payment : 
-                                <span>{{ $payment_status ?? '-' }}</span>
-                            </p>
+                <div class="row justify-content-center">
+                    <div class="col-xl-7">
+                        <table class="table table-striped text-center mb-5">
+                            <thead class="bg-dark text-white">
+                                <th>Item Product</th>
+                                <th>Quantity</th>
+                                <th>Price Product</th>
+                            </thead>
+                            <tbody>
+                                @foreach ($order as $item)
+                                    <tr>
+                                        <td>{{ $item->product->name_product }}</td>
+                                        <td>{{ $item->quantity }} Item</td>
+                                        <td>@currency($item->product->price_product)</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-xl-5">
+                        <div class="card shadow border-0">
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                        Name
+                                        <span>{{ $name_user ?? auth()->user()->name }}</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                        Email
+                                        <span>{{ $email_user ?? auth()->user()->email }}</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                        Courier
+                                        <span>{{ strtoupper($courier) }}</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                        Price Shipping
+                                        <span>@currency($price_shipping)</span>
+                                    </li>
+                                </ul>
+                                <p class="card-text">
+                                    Total payment with Shipping :
+                                    <span>@currency($amount)</span>
+                                </p>
+                                <p class="card-text">
+                                    <span class="badge bg-primary">
+                                        <a href="{{ $payment_link ?? '-'}}" target="_blank" class="text-white">
+                                            {{ $payment_link ?? '-' }}
+                                        </a>
+                                    </span>
+                                </p>
+                                <p class="card-text">
+                                    Status Payment :
+                                    <span class="badge bg-success">{{ $payment_status ?? '-' }}</span>
+                                </p>
+
+                                <form action="{{ route('checkout.payment.store') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <input type="hidden" name="amount" value="{{ $amount }}" />
+                                    <button type="submit" class="{{ ($payment_status == 'PAID') ? 'd-none' : '' }} btn btn-danger rounded-pill btn-sm w-25">
+                                        <i class="fas fa-fw fa-wallet"></i> Pay Now
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <form action="{{ route('checkout.payment.store') }}" method="POST" class="d-inline">
-                    @csrf
-                    <input type="hidden" name="amount" value="{{ $amount }}" />
-                    <button type="submit" class="btn btn-danger rounded-pill">
-                        <i class="fas fa-fw fa-wallet"></i> Pay Now
-                    </button>
-                </form>
             </div>
         </div>
     </div>

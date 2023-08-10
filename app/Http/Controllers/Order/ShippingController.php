@@ -56,10 +56,18 @@ class ShippingController extends Controller
     {
         $keranjang = Keranjang::with(['product'])->where([
                                 ['user_id', '=', Auth::user()->id],
-                                ['status', '<>', ['ordered', 'paid']]
+                                ['status', '<>', 'paid'],
+                                ['status', '<>', 'ordered']
                             ])->get();
         $alamat = Alamat::with(['user'])->where('user_id', '=', Auth::user()->id)->first(['id', 'user_id', 'provinsi_id', 'kota_id', 'keterangan_alamat']);
-        $kota = Cities::where('province_id', '=', $alamat->provinsi_id)->get(['id', 'nama_kab_kota', 'province_id']);
+
+        if($alamat != null) {
+            $kota = Cities::where('province_id', '=', $alamat->provinsi_id)->get(['id', 'nama_kab_kota', 'province_id']);
+        } else {
+            $kota = Cities::join('provinces', 'provinces.id', '=', 'cities.province_id')
+                        ->get(['cities.*']);
+        }
+
         $provinsi = Provinces::get(['id', 'name_province']);
         $totalWeight = 0;
         $totalAmount = 0;
@@ -98,7 +106,8 @@ class ShippingController extends Controller
 
         $datas = Keranjang::with(['checkout', 'product'])->where([
                                 ['user_id', '=', Auth::user()->id],
-                                ['status', '<>', ['ordered', 'paid']]
+                                ['status', '<>', 'paid'],
+                                ['status', '<>', 'ordered'],
                             ])->get();
 
         foreach($datas as $data) {
@@ -106,10 +115,12 @@ class ShippingController extends Controller
                 'stock_product' => $data->product->stock_product - $data->quantity,
             ]);
 
-            $data->update([
-                'checkout_id' => $shipping->id,
-                'status' => 'ordered'
-            ]);
+            if($data->status == 'onList') {
+                $data->update([
+                    'status' => 'ordered',
+                    'checkout_id' => $shipping->id,
+                ]);
+            }
         }
 
         if($shipping) {

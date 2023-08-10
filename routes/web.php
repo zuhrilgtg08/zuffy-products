@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PopularController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoriesController;
@@ -10,11 +11,12 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Order\ShippingController;
 use App\Http\Controllers\Data\DataReviewController;
 use App\Http\Controllers\Data\DataWorkerController;
+use App\Http\Controllers\Order\CheckoutsController;
 use App\Http\Controllers\SettingCustomerController;
 use App\Http\Controllers\Data\DataProductController;
 use App\Http\Controllers\Data\DataCategoryController;
+use App\Http\Controllers\Data\DataCheckoutController;
 use App\Http\Controllers\Data\DataDashboardController;
-use App\Http\Controllers\Order\CheckoutsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +40,9 @@ Route::name('admin.')->prefix('manage_dashboard')->middleware(['admin'])->group(
     Route::resource('products', DataProductController::class);
     Route::resource('categories', DataCategoryController::class);
     Route::resource('workers', DataWorkerController::class);
+    Route::get('/checkout/list', [DataCheckoutController::class, 'list'])->name('checkout.list');
+    Route::get('/checkout/order/detail/{checkouts:uuid}', [DataCheckoutController::class, 'detail'])->name('checkout.detail');
+    Route::get('/checkout/order/print', [DataCheckoutController::class, 'print'])->name('checkout.print');
     Route::get('/reviews/list', [DataReviewController::class, 'index'])->name('reviews.index');
     Route::get('/reviews/detail/{products:uuid}', [DataReviewController::class, 'detail'])->name('reviews.detail');
     Route::delete('/reviews/remove/{reviews:id}', [DataReviewController::class, 'destroy'])->name('reviews.destroy');
@@ -71,6 +76,13 @@ Route::name('customer.')->middleware(['auth'])->group(function () {
     Route::put('/profile/alamat/{users:id}', [SettingCustomerController::class, 'dataAlamat'])->name('alamat.update');
     Route::put('/profile/update/{users:id}', [SettingCustomerController::class, 'update'])->name('profile.update');
     Route::put('/profile/password/update/{users:id}', [SettingCustomerController::class, 'updatePwd'])->name('profile.pwdChange');
+});
+
+// History Routes
+Route::name('history.')->middleware(['auth'])->group(function() {
+    Route::get('/data/list', [HistoryController::class, 'list'])->name('list');
+    Route::get('/data/detail/{checkouts:uuid}', [HistoryController::class, 'detail'])->name('detail');
+    Route::get('/data/list/print/{checkouts:id}', [HistoryController::class, 'print'])->name('print');
 });
 
 // Keranjang Routes

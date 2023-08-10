@@ -68,7 +68,7 @@
                                     <div class="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item text-center fs-6" href="">
+                                    <a class="dropdown-item text-center fs-6" href="{{ route('history.list') }}">
                                         <i class="fas fa-fw fa-list-alt"></i> My History
                                     </a>
                                 </li>

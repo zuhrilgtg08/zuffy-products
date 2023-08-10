@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Data;
 
 use App\Models\User;
-use App\Models\Categories;
 use App\Models\Worker;
 use App\Models\Product;
 use App\Models\Reviews;
+use App\Models\Keranjang;
+use App\Models\Categories;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,17 @@ class DataDashboardController extends Controller
             'categories' => Categories::latest()->count(),
             'worker' => Worker::latest()->count(),
             'product' => Product::latest()->count(),
+            'rating' => Reviews::latest()->count(),
+            'order' => Keranjang::where('status', '=', 'paid')->count(),
+        ];
+
+        $chartData = [
+            $data['user'],
+            $data['categories'],
+            $data['worker'],
+            $data['product'],
+            $data['rating'],
+            $data['order'],
         ];
 
         $reviews = Reviews::with('user')->where('rating', '>', 3.5)->latest()->get();
@@ -29,6 +41,7 @@ class DataDashboardController extends Controller
         return view('pages.dashboard.index', [
             'data' => $data,
             'reviews' => $reviews,
+            'chart' => $chartData,
         ]);
     }
 

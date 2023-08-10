@@ -102,10 +102,10 @@
                 <div class="col-lg-8">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Profile Visit</h4>
+                            <h4>Data Grafik</h4>
                         </div>
                         <div class="card-body">
-                            <div id="chart-profile-visit"></div>
+                            <div id="chart-data"></div>
                         </div>
                     </div>
                 </div>
@@ -157,7 +157,37 @@
 
 @section('script')
     <script src="{{ asset('assets/backend/vendors/apexcharts/apexcharts.js') }}"></script>
-    <script src="{{ asset('assets/backend/js/pages/dashboard.js') }}"></script>
+    <script>
+        let item = {{ Js::from($chart) }}
+        let optionsBar = {
+            annotations: {
+                position: 'back'
+            },
+            dataLabels: {
+                enabled:false
+            },
+            chart: {
+                type: 'bar',
+                height: 300
+            },
+            fill: {
+                opacity:1
+            },
+            plotOptions: {
+            },
+            series: [{
+                name: 'data',
+                data: item,
+            }],
+            colors: '#435EBE',
+            xaxis: {
+                categories: ["User","Categories","Worker","Product","Rating","Order"],
+            },
+        }
+
+        let chartBar = new ApexCharts(document.querySelector("#chart-data"), optionsBar);
+        chartBar.render();
+    </script>
     <script src="{{ asset('assets/backend/vendors/simple-datatables/simple-datatables.js') }}"></script>
     <script>
         // Simple Datatable

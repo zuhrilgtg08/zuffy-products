@@ -27,5 +27,4 @@ class Keranjang extends Model
     {
         return $this->belongsTo(Checkouts::class, 'checkout_id');
     }
-
 }
